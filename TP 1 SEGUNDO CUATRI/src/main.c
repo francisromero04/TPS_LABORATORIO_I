@@ -19,6 +19,8 @@ int main(void)
 	int costoTransporte = 0;
 	int costoMantenimiento;
 
+	int totalJugadores;
+
 	int contadorAfc;
 	int contadorCaf;
 	int contadorConcacaf;
@@ -26,12 +28,12 @@ int main(void)
 	int contadorUefa;
 	int contadorOfc;
 
-	float promedioAfc = 0;
-	float promedioCaf = 0;
-	float promedioConcacaf = 0;
-	float promedioConmebol = 0;
-	float promedioUefa = 0;
-	float promedioOfc = 0;
+	float promedioAfc;
+	float promedioCaf;
+	float promedioConcacaf;
+	float promedioConmebol;
+	float promedioUefa;
+	float promedioOfc;
 
 	do
 	{
@@ -68,7 +70,7 @@ int main(void)
 				{
 					if(flagOpcionDos == 0)
 					{
-						menuIngresoJugadores(&contadorAfc, &contadorCaf, &contadorConcacaf, &contadorConmebol, &contadorUefa, &contadorOfc);
+						menuIngresoJugadores(&contadorAfc, &contadorCaf, &contadorConcacaf, &contadorConmebol, &contadorUefa, &contadorOfc, &totalJugadores);
 
 						flagOpcionDos = 1;
 					}
@@ -88,12 +90,12 @@ int main(void)
 				{
 					if(flagOpcionTres == 0)
 					{
-						promedioAfc = contadorAfc*100 / 22;
-						promedioCaf = contadorCaf*100 / 22;
-						promedioConcacaf = contadorConcacaf*100 / 22;
-						promedioConmebol = contadorConmebol*100 /22;
-						promedioUefa = contadorUefa*100 /22;
-						promedioOfc = contadorOfc*100 / 22;
+						promedioAfc = (float) contadorAfc / totalJugadores;
+						promedioCaf = (float) contadorCaf / totalJugadores;
+						promedioConcacaf = (float) contadorConcacaf / totalJugadores;
+						promedioConmebol = (float) contadorConmebol / totalJugadores;
+						promedioUefa = (float) contadorUefa / totalJugadores;
+						promedioOfc = (float) contadorOfc / totalJugadores;
 
 						calcularCostoMantenimiento(costoHospedaje, costoComida, costoTransporte, &costoMantenimiento);
 						printf("\nSE HAN CALCULADO LOS RESULTADOS.\n");

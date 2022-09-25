@@ -176,7 +176,7 @@ static int ingresarPosicion(int contadorArqueros, int contadorDefensores, int co
 /// @param contadorCinco
 /// @param contadorSeis
 /// @return Retorna 1 si salio bien, de lo contrario retorna 0.
-int menuIngresoJugadores(int* contadorUno, int* contadorDos, int* contadorTres, int* contadorCuatro, int* contadorCinco, int* contadorSeis)
+int menuIngresoJugadores(int* contadorUno, int* contadorDos, int* contadorTres, int* contadorCuatro, int* contadorCinco, int* contadorSeis, int* sumaJugadores)
 {
 	int rtn = 0;
 	int posicion;
@@ -194,7 +194,7 @@ int menuIngresoJugadores(int* contadorUno, int* contadorDos, int* contadorTres, 
 	int contadorOfc = 0;
 	int respuesta;
 
-	if(contadorUno != NULL && contadorDos != NULL && contadorTres != NULL && contadorCuatro != NULL && contadorCinco && contadorSeis != NULL)
+	if(contadorUno != NULL && contadorDos != NULL && contadorTres != NULL && contadorCuatro != NULL && contadorCinco && contadorSeis != NULL && sumaJugadores != NULL)
 	{
 		do
 		{
@@ -259,38 +259,39 @@ int menuIngresoJugadores(int* contadorUno, int* contadorDos, int* contadorTres, 
 			{
 				case AFC:
 					contadorAfc++;
+					*contadorUno = contadorAfc;
 				break;
 
 				case CAF:
 					contadorCaf++;
+					*contadorDos = contadorCaf;
 				break;
 
 				case CONCACAF:
 					contadorConcacaf++;
+					*contadorTres = contadorConcacaf;
 				break;
 
 				case CONMEBOL:
 					contadorConmebol++;
+					*contadorCuatro = contadorConmebol;
 				break;
 
 				case UEFA:
 					contadorUefa++;
+					*contadorCinco = contadorUefa;
 				break;
 
 				case OFC:
 					contadorOfc++;
+					*contadorSeis = contadorOfc;
 				break;
 			}
 
 			utn_getNumero("\nDESEA SEGUIR INGRESANDO JUGADORES? (1.SI | 2.NO): ", "ERROR. ", 1, 2, 3, &respuesta);
 		}while(respuesta != 2);
 
-		*contadorUno = contadorAfc;
-		*contadorDos = contadorCaf;
-		*contadorTres = contadorConcacaf;
-		*contadorCuatro = contadorConmebol;
-		*contadorCinco = contadorUefa;
-		*contadorSeis = contadorOfc;
+		*sumaJugadores = contadorArqueros + contadorDefensores + contadorMediocampistas + contadorDelanteros;
 		rtn = 1;
 	}
 

@@ -16,7 +16,7 @@
 #define OFC 10
 
 int ingresarCostos(int* primerCosto, int* segundoCosto, int* tercerCosto);
-int menuIngresoJugadores(int* contadorUno, int* contadorDos, int* contadorTres, int* contadorCuatro, int* contadorCinco, int* contadorSeis);
+int menuIngresoJugadores(int* contadorUno, int* contadorDos, int* contadorTres, int* contadorCuatro, int* contadorCinco, int* contadorSeis, int* sumaJugadores);
 int calcularCostoMantenimiento(int primerCosto, int segundoCosto, int tercerCosto, int* costoMantenimiento);
 void imprimirCalculos(int costoMantenimiento, float promedioAfc, float promedioCaf, float promedioConcacaf, float promedioConmebol, float promedioUefa, float promedioOfc);
 
