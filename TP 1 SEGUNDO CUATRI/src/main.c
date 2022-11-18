@@ -8,32 +8,12 @@ int main(void)
 {
 	setbuf(stdout, NULL);
 
-	int opcion;
-
-	int flagOpcionUno = 0;
-	int flagOpcionDos = 0;
-	int flagOpcionTres = 0;
-
-	int costoHospedaje = 0;
-	int costoComida = 0;
-	int costoTransporte = 0;
-	int costoMantenimiento;
-
-	int totalJugadores;
-
-	int contadorAfc;
-	int contadorCaf;
-	int contadorConcacaf;
-	int contadorConmebol;
-	int contadorUefa;
-	int contadorOfc;
-
-	float promedioAfc;
-	float promedioCaf;
-	float promedioConcacaf;
-	float promedioConmebol;
-	float promedioUefa;
-	float promedioOfc;
+	int opcion, posicion, numeroCamiseta, respuesta, totalJugadores;
+	int flagOpcionUno = 0, flagOpcionDos = 0, flagOpcionTres = 0;
+	int costoHospedaje = 0, costoComida = 0, costoTransporte = 0, costoMantenimiento;
+	int contadorArqueros = 0, contadorDefensas = 0, contadorMediocampos = 0, contadorDelanteros = 0;
+	int contadorAfc = 0, contadorCaf = 0, contadorConcacaf = 0, contadorConmebol = 0, contadorUefa = 0, contadorOfc = 0;
+	float promedioAfc, promedioCaf, promedioConcacaf, promedioConmebol, promedioUefa, promedioOfc;
 
 	do
 	{
@@ -41,7 +21,14 @@ int main(void)
 		printf("|------------MENU PRINCIPAL------------|\n");
 		printf("|======================================|\n");
 		printf("|1. INGRESO DE COSTOS DE MANTENIMIENTO |\n");
+		printf("|   Costo de Hospedaje ->%5d         |\n", costoHospedaje);
+		printf("|   Costo de Comida ->%5d            |\n", costoComida);
+		printf("|   Costo de Transporte ->%5d        |\n", costoTransporte);
 		printf("|2. CARGA DE JUGADORES                 |\n");
+		printf("|   Arqueros ->%5d                   |\n", contadorArqueros);
+		printf("|   Defensores ->%5d                 |\n", contadorDefensas);
+		printf("|   Mediocampistas ->%5d             |\n", contadorMediocampos);
+		printf("|   Delanteros ->%5d                 |\n", contadorDelanteros);
 		printf("|3. REALIZAR TODOS LOS CALCULOS        |\n");
 		printf("|4. INFORMAR TODOS LOS RESULTADOS      |\n");
 		printf("|5. SALIR                              |\n");
@@ -52,11 +39,15 @@ int main(void)
 		switch(opcion)
 		{
 			case 1:
-				if(flagOpcionUno == 0)
+				if(flagOpcionUno == 0 || flagOpcionUno == 2)
 				{
 					if(ingresarCostos(&costoHospedaje, &costoComida, &costoTransporte) == 1)
 					{
 						flagOpcionUno = 1;
+					}
+					else
+					{
+						flagOpcionUno = 2;
 					}
 				}
 				else
@@ -70,9 +61,18 @@ int main(void)
 				{
 					if(flagOpcionDos == 0)
 					{
-						menuIngresoJugadores(&contadorAfc, &contadorCaf, &contadorConcacaf, &contadorConmebol, &contadorUefa, &contadorOfc, &totalJugadores);
+						do
+						{
+							posicion = ingresarPosicion(&contadorArqueros, &contadorDefensas, &contadorMediocampos, &contadorDelanteros);
 
-						flagOpcionDos = 1;
+							if(posicion == 1 || posicion == 2 || posicion == 3 || posicion == 4)
+							{
+								ingresarConfederacion(&contadorAfc, &contadorCaf, &contadorConcacaf, &contadorConmebol, &contadorUefa, &contadorOfc);
+								utn_getNumero("INGRESE NUMERO DE CAMISETA (menor de 30): ", "ERROR. ", 1, 30, 3, &numeroCamiseta);
+								respuesta = funcionContinuar("\nDESEA CONTINUAR INGRESANDO JUGADORES? (S / N): ", "ERROR. ");
+								flagOpcionDos = 1;
+							}
+						}while(respuesta != 0);
 					}
 					else
 					{
@@ -90,6 +90,7 @@ int main(void)
 				{
 					if(flagOpcionTres == 0)
 					{
+						totalJugadores = contadorArqueros + contadorDefensas + contadorMediocampos + contadorDelanteros;
 						promedioAfc = (float) contadorAfc / totalJugadores;
 						promedioCaf = (float) contadorCaf / totalJugadores;
 						promedioConcacaf = (float) contadorConcacaf / totalJugadores;
@@ -115,7 +116,7 @@ int main(void)
 			case 4:
 				if(flagOpcionTres == 1)
 				{
-					if(flagOpcionUno == 1 && flagOpcionTres == 1)
+					if(flagOpcionUno == 1 && flagOpcionDos == 1)
 					{
 						imprimirCalculos(costoMantenimiento, promedioAfc, promedioCaf, promedioConcacaf, promedioConmebol, promedioUefa, promedioOfc);
 					}
@@ -135,7 +136,6 @@ int main(void)
 			break;
 		}
 	}while(opcion != 5);
-
 
 	return 0;
 }
