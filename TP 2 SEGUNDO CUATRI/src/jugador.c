@@ -58,11 +58,36 @@ int eJugador_obtenerIndexLibre(eJugador lista[], int TAM)
 eJugador eJugador_ingresarDatos(void)
 {
 	eJugador auxiliar;
+	int flagIngreso = -1;
 
 	puts("");
 	utn_getNombreCompleto(auxiliar.nombre);
+
 	utn_getString("INGRESE LA POSICION DEL JUGADOR: ", "ERROR. ", 3, TAM_CHAR, auxiliar.posicion);
-	utn_getNumero("INGRESE NUMERO DE CAMISETA: ", "ERROR. ", 1, 200, 3, &auxiliar.numeroCamiseta);
+
+	if(stricmp(auxiliar.posicion, "arquero") == 0 || stricmp(auxiliar.posicion, "defensor") == 0 ||
+	  stricmp(auxiliar.posicion, "mediocampista") == 0 || stricmp(auxiliar.posicion, "delantero") == 0)
+	{
+		flagIngreso = 1;
+	}
+	else if(flagIngreso == -1)
+	{
+		while(stricmp(auxiliar.posicion, "arquero") != 0 || stricmp(auxiliar.posicion, "defensor") != 0 ||
+			  stricmp(auxiliar.posicion, "mediocampista") != 0 || stricmp(auxiliar.posicion, "delantero") != 0)
+		{
+			printf("ERROR, SOLO PUEDE INGRESAR ARQUERO, DEFENSOR, MEDIOCAMPISTA O DELANTERO.\n");
+			utn_getString("REINGRESE LA POSICION CORRECTA DEL JUGADOR: ", "ERROR. ", 3, TAM_CHAR, auxiliar.posicion);
+
+			if(stricmp(auxiliar.posicion, "arquero") == 0 || stricmp(auxiliar.posicion, "defensor") == 0 ||
+			   stricmp(auxiliar.posicion, "mediocampista") == 0 || stricmp(auxiliar.posicion, "delantero") == 0)
+			{
+				flagIngreso = 1;
+				break;
+			}
+		}
+	}
+
+	utn_getNumero("INGRESE NUMERO DE CAMISETA: ", "ERROR. ", 1, 30, 3, &auxiliar.numeroCamiseta);
 	utn_getNumero("INGRESE LOS AÑOS DE CONTRATO (menos de 30): ", "ERROR. ", 1, 30, 3, &auxiliar.aniosContrato);
 	utn_getNumFloat("INGRESE EL SALARIO DEL JUGADOR: ", "ERROR. ", 1, 999999, 3, &auxiliar.salario);
 
@@ -168,54 +193,6 @@ void eJugador_ImprimirSaldoPromedio(float saldoAcumulado, float saldoPromedio, i
 {
 	printf("\nLA SUMATORIA TOTAL DE LOS SALARIOS ES DE: $%.2f, MIENTRAS QUE SU PROMEDIO ES DE: $%.2f.", saldoAcumulado, saldoPromedio);
 	printf("\nLA CANTIDAD DE JUGADORES CON UN SALDO MAYOR A ESTE PROMEDIO ES DE: %d.\n", jugadoresMayorSaldo);
-}
-
-/// @brief Recibe una lista y su len. Recorre la lista buscando posiciones en estado "OCUPADO",
-///  si las hay, ordena por doble criterio.
-/// @param lista
-/// @param TAM
-/// @return Retorna 0 o 1 dependiendo el criterio
-int eJugador_sort(eJugador lista[], int TAM)
-{
-	int rtn = -1;
-	int i;
-	int j;
-	eJugador aux;
-
-	if (lista != NULL && TAM > 0)
-	{
-		for (i = 0; i < TAM - 1; i++)
-		{
-			for (j = i + 1; j < TAM; j++)
-			{
-				if (lista[i].isEmpty == OCUPADO && lista[j].isEmpty == OCUPADO)
-				{
-					if(stricmp(lista[i].fk_nombreConfederacion, lista[j].fk_nombreConfederacion) < 0)
-					{
-						aux = lista[i];
-						lista[i] = lista[j];
-						lista[j] = aux;
-						rtn = 0; // RETORNA 0 SI SE ORDENA POR NOMBRE DE CONFEDERACION
-					}
-					else
-					{
-						if(stricmp(lista[i].fk_nombreConfederacion, lista[j].fk_nombreConfederacion) == 0)
-						{
-							if(stricmp(lista[i].nombre, lista[j].nombre) < 0)
-							{
-								aux = lista[i];
-								lista[i] = lista[j];
-								lista[j] = aux;
-								rtn = 1; //RETORNA 1 SI SE ORDENA POR NOMBRE DE JUGADOR
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	return rtn;
 }
 
 /// @brief Recibe una lista y su len. Recorre la lista buscando posiciones en estado "OCUPADO",

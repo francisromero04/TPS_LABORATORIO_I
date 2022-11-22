@@ -16,5 +16,6 @@ int nexo_calcularContratoMasLargo(eJugador listaJugadores[], int TAM_JUGADORES, 
 int nexo_calcularPromedios(eJugador listaJugadores[], int TAM_JUGADORES, eConfederacion listaConfed[], int TAM_CONFED);
 int nexo_imprimirJugadorPorConfederacion(eJugador listaJugadores[], int TAM_JUGADORES, eConfederacion listaConfed[], int TAM_CONFED, char confederacion[]);
 int nexo_listarRegionConMasJugadores(eJugador listaJugadores[], int TAM_JUGADORES, eConfederacion listaConfed[], int TAM_CONFED);
+int nexo_sortPorNombre(eJugador listaJugadores[], int TAM_JUGADORES, eConfederacion listaConfed[], int TAM_CONFED);
 
 #endif /* NEXO_H_ */

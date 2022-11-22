@@ -15,7 +15,6 @@ typedef struct
 	char posicion[TAM_CHAR];
 	int numeroCamiseta;
 	int fk_idConfederacion;
-	char fk_nombreConfederacion[TAM_CHAR];
 	float salario;
 	int aniosContrato;
 	int isEmpty;
@@ -29,7 +28,6 @@ int eJugador_buscarPorID(eJugador lista[], int TAM, int ID);
 int eJugador_calcularSaldoPromedio(eJugador lista[], int TAM, float* saldoAcumulado, float* saldoPromedio);
 int eJugador_verificarSalario(eJugador lista[], int TAM, float saldoPromedio);
 void eJugador_ImprimirSaldoPromedio(float saldoAcumulado, float saldoPromedio, int jugadoresMayorSaldo);
-int eJugador_sort(eJugador lista[], int TAM);
 int eJugador_sortPorID(eJugador lista[], int TAM);
 int eJugador_harcodeo(eJugador lista[]);
 

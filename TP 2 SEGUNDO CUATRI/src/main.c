@@ -8,14 +8,10 @@ int main(void)
 {
 	setbuf(stdout, NULL);
 
-	int opcion;
-	int opcionInforme;
-	int opcionSalir;
-	int flagAlta = 0;
-	int flagHarcodeo = 0;
+	int opcion, opcionInforme, opcionSalir;
+	int flagAlta = 0, flagHarcodeo = 0;
 	int jugadoresMayorSaldo = 0;
-	float saldoAcumulado;
-	float saldoPromedio;
+	float saldoAcumulado, saldoPromedio;
 
 	eJugador listaJugadores[TAM_LISTA];
 	eConfederacion listaConfederaciones[TAM_LISTA];
@@ -23,7 +19,6 @@ int main(void)
 	eJugador_inicializarlista(listaJugadores, TAM_LISTA);
 	eConfederacion_inicializarlista(listaConfederaciones, TAM_LISTA);
 	eConfederacion_harcodeo(listaConfederaciones);
-	eJugador_harcodeo(listaJugadores);
 
 	do
 	{
@@ -80,7 +75,7 @@ int main(void)
 					switch(opcionInforme)
 					{
 						case 1:
-							eJugador_sort(listaJugadores, TAM_LISTA);
+							nexo_sortPorNombre(listaJugadores, TAM_LISTA, listaConfederaciones, TAM_LISTA);
 							nexo_listarTodos(listaJugadores, TAM_LISTA, listaConfederaciones, TAM_LISTA);
 						break;
 

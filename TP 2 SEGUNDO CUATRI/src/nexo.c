@@ -27,7 +27,6 @@ int nexo_alta(eJugador listaJugadores[], int TAM_JUGADORES, eConfederacion lista
 			auxConfederacion = eConfederacion_ingresarUna(listaConf, TAM_CONF);
 			auxJugador.idJugador = eJugador_getID();
 			auxJugador.fk_idConfederacion = auxConfederacion.idConfederacion;
-			strcpy(auxJugador.fk_nombreConfederacion, auxConfederacion.nombre);
 			auxJugador.isEmpty = OCUPADO;
 			listaJugadores[indexJugador] = auxJugador;
 			rtn = indexJugador;
@@ -94,7 +93,7 @@ int nexo_baja(eJugador listaJugadores[], int TAM_JUGADORES, eConfederacion lista
 /// @return Retorna un auxiliar con los datos modificados
 eJugador nexo_modificarUno(eJugador jugador, eConfederacion lista[], int TAM_CONFED)
 {
-	int opcionMenuModificar;
+	int opcionMenuModificar, flagIngreso = -1;
 	eConfederacion auxConfederacion;
 
 	do
@@ -113,21 +112,45 @@ eJugador nexo_modificarUno(eJugador jugador, eConfederacion lista[], int TAM_CON
 		switch(opcionMenuModificar)
 		{
 			case 1:
-				if(utn_getString("INGRESE NOMBRE COMPLETO DEL JUGADOR: ", "ERROR. ", 3, TAM_CHAR, jugador.nombre))
+				if(	utn_getNombreCompleto(jugador.nombre))
 				{
 					puts("EL NOMBRE DEL JUGADOR SE HA MODIFICADO.");
 				}
 			break;
 
 			case 2:
-				if(	utn_getString("INGRESE LA POSICION DEL JUGADOR: ", "ERROR. ", 3, TAM_CHAR, jugador.posicion))
+				utn_getString("INGRESE LA POSICION DEL JUGADOR: ", "ERROR. ", 3, TAM_CHAR, jugador.posicion);
+
+				if(stricmp(jugador.posicion, "arquero") == 0 || stricmp(jugador.posicion, "defensor") == 0 ||
+				   stricmp(jugador.posicion, "mediocampista") == 0 || stricmp(jugador.posicion, "delantero") == 0)
+				{
+					flagIngreso = 1;
+				}
+				else if(flagIngreso == -1)
+				{
+					while(stricmp(jugador.posicion, "arquero") != 0 || stricmp(jugador.posicion, "defensor") != 0 ||
+						  stricmp(jugador.posicion, "mediocampista") != 0 || stricmp(jugador.posicion, "delantero") != 0)
+					{
+						printf("ERROR, SOLO PUEDE INGRESAR ARQUERO, DEFENSOR, MEDIOCAMPISTA O DELANTERO.\n");
+						utn_getString("REINGRESE LA POSICION CORRECTA DEL JUGADOR: ", "ERROR. ", 3, TAM_CHAR, jugador.posicion);
+
+						if(stricmp(jugador.posicion, "arquero") == 0 || stricmp(jugador.posicion, "defensor") == 0 ||
+						   stricmp(jugador.posicion, "mediocampista") == 0 || stricmp(jugador.posicion, "delantero") == 0)
+						{
+							flagIngreso = 1;
+							break;
+						}
+					}
+				}
+
+				if(flagIngreso == 1)
 				{
 					puts("LA POSICION DEL JUGADOR SE HA MODIFICADO.");
 				}
 			break;
 
 			case 3:
-				if(utn_getNumero("INGRESE NUMERO DE CAMISETA: ", "ERROR. ", 1, 200, 3, &jugador.numeroCamiseta))
+				if(utn_getNumero("INGRESE NUMERO DE CAMISETA (MENOR DE 30): ", "ERROR. ", 1, 30, 3, &jugador.numeroCamiseta))
 				{
 					puts("EL NUMERO DE CAMISETA DEL JUGADOR SE HA MODIFICADO.");
 				}
@@ -148,7 +171,7 @@ eJugador nexo_modificarUno(eJugador jugador, eConfederacion lista[], int TAM_CON
 			break;
 
 			case 6:
-				if(utn_getNumero("INGRESE LOS AÑOS DE CONTRATO: ", "ERROR. ", 1, 3, 3, &jugador.aniosContrato))
+				if(utn_getNumero("INGRESE LOS AÑOS DE CONTRATO (MENOS DE 30): ", "ERROR. ", 1, 30, 3, &jugador.aniosContrato))
 				{
 					puts("LOS AÑOS DE CONTRATO DEL JUGADOR SE HAN MODIFICADO.");
 				}
@@ -206,6 +229,42 @@ int nexo_modificacion(eJugador listaJugadores[], int TAM_JUGADORES, eConfederaci
 	return rtn;
 }
 
+/// @brief Recibe una lista y su len. Recorre la lista buscando posiciones en estado "OCUPADO",
+///  si las hay, ordena por doble criterio.
+/// @param lista
+/// @param TAM
+/// @return Retorna 0 o 1 dependiendo el criterio
+int nexo_sortPorNombre(eJugador listaJugadores[], int TAM_JUGADORES, eConfederacion listaConfed[], int TAM_CONFED)
+{
+	int rtn = -1;
+	eJugador aux;
+
+	if (listaJugadores != NULL && TAM_JUGADORES > 0)
+	{
+		for (int i = 0; i < TAM_JUGADORES - 1; i++)
+		{
+			for (int j = i + 1; j < TAM_JUGADORES; j++)
+			{
+				if (listaJugadores[i].isEmpty == OCUPADO && listaJugadores[j].isEmpty == OCUPADO)
+				{
+					if(stricmp(listaConfed[i].nombre, listaConfed[j].nombre) < 0)
+					{
+						if(stricmp(listaJugadores[i].nombre, listaJugadores[j].nombre) < 0)
+						{
+							aux = listaJugadores[i];
+							listaJugadores[i] = listaJugadores[j];
+							listaJugadores[j] = aux;
+							rtn = 0;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return rtn;
+}
+
 /// @brief Imprime los datos cargados de una posicion.
 /// @param confederacion
 void nexo_listarUno(eJugador jugador, eConfederacion confederacion)
@@ -249,6 +308,31 @@ int nexo_listarTodos(eJugador listaJugadores[], int TAM_JUGADORES, eConfederacio
 	if (cantidad > 0)
 	{
 		rtn = 1;
+	}
+
+	return rtn;
+}
+
+int averiguarNombreConfederacion(eJugador listaJugadores[], int TAM_JUGADORES, eConfederacion listaConfed[], int TAM_CONFED, char* nombreConfed)
+{
+	int rtn = -1;
+	int idConfederacion;
+	int indexId;
+
+	if (listaJugadores != NULL && TAM_JUGADORES > 0 && listaConfed != NULL && TAM_CONFED > 0)
+	{
+		for (int i = 0; i < TAM_JUGADORES - 1; i++)
+		{
+			for (int j = i + 1; j < TAM_JUGADORES; j++)
+			{
+				if (listaJugadores[i].isEmpty == OCUPADO)
+				{
+					idConfederacion = listaJugadores[i].fk_idConfederacion;
+					indexId = eConfederacion_buscarPorID(listaConfed, TAM_CONFED, idConfederacion);
+					strcpy(nombreConfed, listaConfed[indexId].nombre);
+				}
+			}
+		}
 	}
 
 	return rtn;

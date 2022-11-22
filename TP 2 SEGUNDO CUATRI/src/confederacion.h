@@ -31,5 +31,6 @@ eConfederacion eConfederacion_modificarUno(eConfederacion viaje);
 int eConfederacion_alta(eConfederacion lista[], int TAM);
 int eConfederacion_baja(eConfederacion lista[], int TAM);
 int eConfederacion_modificar(eConfederacion lista[], int TAM);
+int eConfederacion_sortPorNombre(eConfederacion lista[], int TAM);
 
 #endif /* CONFEDERACION_H_ */

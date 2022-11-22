@@ -207,19 +207,17 @@ eConfederacion eConfederacion_modificarUno(eConfederacion confederacion)
 int eConfederacion_sortPorID(eConfederacion lista[], int TAM)
 {
 	int rtn = -1;
-	int i;
-	int j;
 	eConfederacion aux;
 
 	if (lista != NULL && TAM > 0)
 	{
-		for (i = 0; i < TAM - 1; i++)
+		for (int i = 0; i < TAM - 1; i++)
 		{
-			for (j = i + 1; j < TAM; j++)
+			for (int j = i + 1; j < TAM; j++)
 			{
 				if (lista[i].isEmpty == OCUPADO && lista[j].isEmpty == OCUPADO)
 				{
-					if(lista[i].idConfederacion > lista[j].idConfederacion)
+					if(lista[i].idConfederacion < lista[j].idConfederacion)
 					{
 						aux = lista[i];
 						lista[i] = lista[j];

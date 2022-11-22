@@ -319,8 +319,8 @@ int utn_getNombreCompleto(char* pCompleto)
 
 	if(pCompleto != NULL)
 	{
-		if(utn_getString("INGRESE SU NOMBRE: ", "ERROR. ", 3, TAM_CHAR, nombre) == 0 &&
-		   utn_getString("INGRESE SU APELLIDO: ", "ERROR. ", 3, TAM_CHAR, apellido) == 0)
+		if(utn_getString("INGRESE SOLO SU NOMBRE: ", "ERROR. ", 3, TAM_CHAR, nombre) == 0 &&
+		   utn_getString("INGRESE SOLO SU APELLIDO: ", "ERROR. ", 3, TAM_CHAR, apellido) == 0)
 		{
 			strcpy(pCompleto, nombre);
 			strcat(pCompleto, " ");
