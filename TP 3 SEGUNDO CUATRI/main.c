@@ -32,11 +32,17 @@ int main()
         switch(opcionMenu)
         {
             case 1:
-            	if(controller_cargarJugadoresDesdeTexto("jugadores.csv", listaJugadores) == 1 &&
-                   controller_cargarSeleccionesDesdeTexto("selecciones.csv", listaSelecciones) == 1)
+            	if(flagCarga == 0)
             	{
-            		printf("\nSE HAN CARGADO LOS JUGADORES Y LAS SELECCIONES DESDE LOS ARCHIVOS DATA CSV.\n");
-            		flagCarga = 1;
+					if(controller_cargarJugadoresDesdeTexto("jugadores.csv", listaJugadores) == 1 &&
+					   controller_cargarSeleccionesDesdeTexto("selecciones.csv", listaSelecciones) == 1)
+					{
+						flagCarga = 1;
+					}
+            	}
+            	else
+            	{
+            		printf("\nERROR. NO SE PERMITE CARGAR LAS LISTAS DOS VECES.\n");
             	}
 			break;
 
@@ -155,7 +161,7 @@ int main()
             		}
             		else
             		{
-            			printf("\nESTA CONFEDERACION TIENE JUGADORES CONVOCADOS, SE GUARDARON EN BINARIO CORRECTAMENTE.\n");
+            			printf("\nESTA CONFEDERACION SI TIENE JUGADORES CONVOCADOS, SE GUARDARON EN BINARIO CORRECTAMENTE.\n");
             		}
 				}
 				else

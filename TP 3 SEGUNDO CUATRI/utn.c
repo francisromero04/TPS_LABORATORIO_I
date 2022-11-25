@@ -319,8 +319,8 @@ int utn_getNombreCompleto(char* pCompleto)
 
 	if(pCompleto != NULL)
 	{
-		if(utn_getString("INGRESE SU NOMBRE: ", "ERROR. ", 3, TAM_CHAR, nombre) == 0 &&
-		   utn_getString("INGRESE SU APELLIDO: ", "ERROR. ", 3, TAM_CHAR, apellido) == 0)
+		if(utn_getString("\nINGRESE SOLO SU NOMBRE: ", "ERROR. ", 3, TAM_CHAR, nombre) == 0 &&
+		   utn_getString("INGRESE SOLO SU APELLIDO: ", "ERROR. ", 3, TAM_CHAR, apellido) == 0)
 		{
 			strcpy(pCompleto, nombre);
 			strcat(pCompleto, " ");
@@ -507,3 +507,107 @@ int funcionContinuar(char mensaje[], char mensajeError[])
 
 	return rtn;
 }
+
+int validarPosicion(char* posicion)
+{
+	int flagIngreso = -1;
+
+	if(stricmp(posicion, "arquero") == 0 || stricmp(posicion, "defensor") == 0 ||
+	   stricmp(posicion, "mediocampista") == 0 || stricmp(posicion, "delantero") == 0)
+	{
+		flagIngreso = 1;
+	}
+	else if(flagIngreso == -1)
+	{
+		while(stricmp(posicion, "arquero") != 0 || stricmp(posicion, "defensor") != 0 ||
+			  stricmp(posicion, "mediocampista") != 0 || stricmp(posicion, "delantero") != 0)
+		{
+			printf("ERROR, SOLO PUEDE INGRESAR ARQUERO, DEFENSOR, MEDIOCAMPISTA O DELANTERO.\n");
+			utn_getString("INGRESE POSICION: ", "ERROR. ", 3, TAM_CHAR, posicion);
+
+			if(stricmp(posicion, "arquero") == 0 || stricmp(posicion, "defensor") == 0 ||
+			   stricmp(posicion, "mediocampista") == 0 || stricmp(posicion, "delantero") == 0)
+			{
+				flagIngreso = 1;
+				break;
+			}
+		}
+	}
+
+	return flagIngreso;
+}
+
+int validarNacionalidad(char* nacionalidad)
+{
+	int flagIngreso = -1;
+
+	if(stricmp(nacionalidad, "arabia") == 0 || stricmp(nacionalidad, "australia") == 0 ||
+	   stricmp(nacionalidad, "corea del sur") == 0 || stricmp(nacionalidad, "iran") == 0 ||
+	   stricmp(nacionalidad, "japon") == 0 || stricmp(nacionalidad, "qatar") == 0 ||
+	   stricmp(nacionalidad, "camerun") == 0 || stricmp(nacionalidad, "ghana") == 0 ||
+	   stricmp(nacionalidad, "marruecos") == 0 || stricmp(nacionalidad, "senegal") == 0 ||
+	   stricmp(nacionalidad, "senegal") == 0 || stricmp(nacionalidad, "tunez") == 0 ||
+	   stricmp(nacionalidad, "canada") == 0 || stricmp(nacionalidad, "costa rica") == 0 ||
+	   stricmp(nacionalidad, "estados unidos") == 0 || stricmp(nacionalidad, "mexico") == 0 ||
+	   stricmp(nacionalidad, "argentina") == 0 || stricmp(nacionalidad, "brasil") == 0 ||
+	   stricmp(nacionalidad, "ecuador") == 0 || stricmp(nacionalidad, "uruguay") == 0 ||
+	   stricmp(nacionalidad, "alemania") == 0 || stricmp(nacionalidad, "belgica") == 0 ||
+	   stricmp(nacionalidad, "croacia") == 0 || stricmp(nacionalidad, "dinamarca") == 0 ||
+	   stricmp(nacionalidad, "espana") == 0 || stricmp(nacionalidad, "francia") == 0 ||
+	   stricmp(nacionalidad, "gales") == 0 || stricmp(nacionalidad, "holanda") == 0 ||
+	   stricmp(nacionalidad, "inglaterra") == 0 || stricmp(nacionalidad, "polonia") == 0 ||
+	   stricmp(nacionalidad, "portugal") == 0 || stricmp(nacionalidad, "serbia") == 0 ||
+	   stricmp(nacionalidad, "suiza") == 0)
+	{
+		flagIngreso = 1;
+	}
+	else if(flagIngreso == -1)
+	{
+		while(stricmp(nacionalidad, "arabia") != 0 || stricmp(nacionalidad, "australia") != 0 ||
+				   stricmp(nacionalidad, "corea del sur") != 0 || stricmp(nacionalidad, "iran") != 0 ||
+				   stricmp(nacionalidad, "japon") != 0 || stricmp(nacionalidad, "qatar") != 0 ||
+				   stricmp(nacionalidad, "camerun") != 0 || stricmp(nacionalidad, "ghana") != 0 ||
+				   stricmp(nacionalidad, "marruecos") != 0 || stricmp(nacionalidad, "senegal") != 0 ||
+				   stricmp(nacionalidad, "senegal") != 0 || stricmp(nacionalidad, "tunez") != 0 ||
+				   stricmp(nacionalidad, "canada") != 0 || stricmp(nacionalidad, "costa rica") != 0 ||
+				   stricmp(nacionalidad, "estados unidos") != 0 || stricmp(nacionalidad, "mexico") != 0 ||
+				   stricmp(nacionalidad, "argentina") != 0 || stricmp(nacionalidad, "brasil") != 0 ||
+				   stricmp(nacionalidad, "ecuador") != 0 || stricmp(nacionalidad, "uruguay") != 0 ||
+				   stricmp(nacionalidad, "alemania") != 0 || stricmp(nacionalidad, "belgica") != 0 ||
+				   stricmp(nacionalidad, "croacia") != 0 || stricmp(nacionalidad, "dinamarca") != 0 ||
+				   stricmp(nacionalidad, "espana") != 0 || stricmp(nacionalidad, "francia") != 0 ||
+				   stricmp(nacionalidad, "gales") != 0 || stricmp(nacionalidad, "holanda") != 0 ||
+				   stricmp(nacionalidad, "inglaterra") != 0 || stricmp(nacionalidad, "polonia") != 0 ||
+				   stricmp(nacionalidad, "portugal") != 0 || stricmp(nacionalidad, "serbia") != 0 ||
+				   stricmp(nacionalidad, "suiza") != 0)
+		{
+			printf("ERROR, SOLO PUEDE INGRESAR SELECCIONES QUE ESTAN EN EL MUNDIAL. \n");
+			utn_getString("INGRESE NACIONALIDAD: ", "ERROR. ", 3, TAM_CHAR, nacionalidad);
+
+			if(stricmp(nacionalidad, "arabia") == 0 || stricmp(nacionalidad, "australia") == 0 ||
+			   stricmp(nacionalidad, "corea del sur") == 0 || stricmp(nacionalidad, "iran") == 0 ||
+			   stricmp(nacionalidad, "japon") == 0 || stricmp(nacionalidad, "qatar") == 0 ||
+			   stricmp(nacionalidad, "camerun") == 0 || stricmp(nacionalidad, "ghana") == 0 ||
+			   stricmp(nacionalidad, "marruecos") == 0 || stricmp(nacionalidad, "senegal") == 0 ||
+			   stricmp(nacionalidad, "senegal") == 0 || stricmp(nacionalidad, "tunez") == 0 ||
+			   stricmp(nacionalidad, "canada") == 0 || stricmp(nacionalidad, "costa rica") == 0 ||
+			   stricmp(nacionalidad, "estados unidos") == 0 || stricmp(nacionalidad, "mexico") == 0 ||
+			   stricmp(nacionalidad, "argentina") == 0 || stricmp(nacionalidad, "brasil") == 0 ||
+			   stricmp(nacionalidad, "ecuador") == 0 || stricmp(nacionalidad, "uruguay") == 0 ||
+			   stricmp(nacionalidad, "alemania") == 0 || stricmp(nacionalidad, "belgica") == 0 ||
+			   stricmp(nacionalidad, "croacia") == 0 || stricmp(nacionalidad, "dinamarca") == 0 ||
+			   stricmp(nacionalidad, "espana") == 0 || stricmp(nacionalidad, "francia") == 0 ||
+			   stricmp(nacionalidad, "gales") == 0 || stricmp(nacionalidad, "holanda") == 0 ||
+			   stricmp(nacionalidad, "inglaterra") == 0 || stricmp(nacionalidad, "polonia") == 0 ||
+			   stricmp(nacionalidad, "portugal") == 0 || stricmp(nacionalidad, "serbia") == 0 ||
+			   stricmp(nacionalidad, "suiza") == 0)
+			{
+				flagIngreso = 1;
+				break;
+			}
+		}
+	}
+
+	return flagIngreso;
+}
+

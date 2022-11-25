@@ -35,9 +35,10 @@ int jug_getIdSeleccion(eJugador* this,int* idSeleccion);
 
 int eJugador_actualizarUltimoId(int idAnterior);
 void eJugador_imprimir(eJugador* this);
+
 int jug_criterioNacionalidad(void* pUno, void* pDos);
 int jug_criterioEdad(void* pUno, void* pDos);
 int jug_criterioNombre(void* pUno, void* pDos);
-eJugador* jug_buscarPorIdSeleccion(LinkedList* pArrayListJugador, int auxiliarId, int* index);
+int jug_estadoConvocatoria(int idSeleccion , char* estadoStr);
 
 #endif // jug_H_INCLUDED

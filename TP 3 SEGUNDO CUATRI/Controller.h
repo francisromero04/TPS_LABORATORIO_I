@@ -19,3 +19,4 @@ int controller_convocarJugador(LinkedList* pArrayListJugador, LinkedList* pArray
 int controller_quitarJugador(LinkedList* pArrayListJugador, LinkedList* pArrayListSeleccion);
 int controller_MenuConvocar(LinkedList* pArrayListJugador, LinkedList* pArrayListSeleccion);
 int controller_listarJugadoresConvocados(LinkedList* pArrayListJugador);
+int controller_listarJugadoresNoConvocados(LinkedList* pArrayListJugador);

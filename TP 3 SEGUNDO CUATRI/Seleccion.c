@@ -11,14 +11,22 @@ Seleccion* selec_newParametros(char* idStr, char* paisStr, char* confederacionSt
 {
 	Seleccion* this = NULL;
 	this = selec_new();
+	int flag = -1;
 
 	if(this != NULL)
 	{
-		if( !(selec_setId(this, atoi(idStr)) && selec_setPais(this, paisStr) &&
-			  selec_setConfederacion(this, confederacionStr) && selec_setConvocados(this, atoi(convocadosStr)) ))
+		this->id = atoi(idStr);
+		strcpy(this->pais, paisStr);
+		strcpy(this->confederacion, confederacionStr);
+		this->convocados = atoi(convocadosStr);
+
+		flag = 1;
+
+		if(flag != 1)
 		{
 			selec_delete(this);
 		}
+
 	}
 
 	return this;
@@ -31,52 +39,6 @@ void selec_delete(Seleccion* this)
 		free(this);
 		this = NULL;
 	}
-}
-
-//setters
-int selec_setId(Seleccion* this, int id)
-{
-	int rtn = -1;
-
-	if(this != NULL && id > 0)
-	{
-		this->id = id;
-		rtn = 1;
-	}
-
-	return rtn;
-}
-
-int selec_setPais(Seleccion* this, char* pais)
-{
-	int rtn = -1;
-
-	if(this != NULL && pais != NULL)
-	{
-		if(strlen(pais) < 25 && strlen(pais) > 1)
-		{
-			strcpy(this->pais, pais);
-			rtn = 1;
-		}
-	}
-
-	return rtn;
-}
-
-int selec_setConfederacion(Seleccion* this, char* confederacion)
-{
-	int rtn = -1;
-
-	if(this != NULL && confederacion != NULL)
-	{
-		if(strlen(confederacion) < 25 && strlen(confederacion) > 1)
-		{
-			strcpy(this->confederacion, confederacion);
-			rtn = 1;
-		}
-	}
-
-	return rtn;
 }
 
 int selec_setConvocados(Seleccion* this, int convocados)
@@ -92,7 +54,21 @@ int selec_setConvocados(Seleccion* this, int convocados)
 	return rtn;
 }
 
-//getters
+/*
+ * {
+	int rtn = -1;
+
+	if(this != NULL)
+	{
+		this->convocados = convocados;
+		rtn = 1;
+	}
+
+	return rtn;
+}
+ */
+
+//geters
 
 int selec_getId(Seleccion* this, int* id)
 {
@@ -177,24 +153,17 @@ void listarConfederacion(void)
 int selec_criterioConfederacion(void* pUno, void* pDos)
 {
 	int rtn;
-	Seleccion* thisOne;
-	Seleccion* thisTwo;
-	thisOne = pUno;
-	thisTwo = pDos;
 
-	if(thisOne != NULL && thisTwo != NULL)
+	char confederacionUno[TAM_CHAR];
+	char confederacionDos[TAM_CHAR];
+
+	if(pUno != NULL && pDos != NULL)
 	{
-		if(strncmp(thisOne->confederacion, thisTwo->confederacion, 50) > 0)
-		{
-			rtn = 1;
-		}
-		else
-		{
-			if(strncmp(thisOne->confederacion, thisTwo->confederacion, 50) < 0)
-			{
-				rtn = 0;
-			}
-		}
+		selec_getConfederacion(pUno, confederacionUno);
+		selec_getConfederacion(pDos, confederacionDos);
+
+		rtn = stricmp(confederacionUno, confederacionDos);
 	}
+
 	return rtn;
 }

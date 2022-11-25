@@ -259,6 +259,7 @@ void eJugador_imprimir(eJugador* this)
 	char posicion[30];
 	char nacionalidad[30];
 	int idSeleccion;
+	char descripcionEstado[TAM_CHAR];
 
 	jug_getId(this, &id);
 	jug_getNombreCompleto(this, nombreCompleto);
@@ -266,111 +267,211 @@ void eJugador_imprimir(eJugador* this)
 	jug_getPosicion(this, posicion);
 	jug_getNacionalidad(this, nacionalidad);
 	jug_getIdSeleccion(this, &idSeleccion);
+	jug_estadoConvocatoria(idSeleccion, descripcionEstado);
 
-	printf("|%-4d|%-25s|%-6d|%-25s|%-20s|%-12d|\n", id, nombreCompleto, edad, posicion, nacionalidad, idSeleccion);
-}
-
-/// @brief A partir de un id retorna en puntero del jugador y por referencia el indice.
-/// @param pArrayListJugador
-/// @param auxiliarId
-/// @param index
-/// @return retorna el puntero al jugador y si no existe, NULL.
-eJugador* jug_buscarPorIdSeleccion(LinkedList* pArrayListJugador, int auxiliarId, int* index)
-{
-	eJugador* this;
-	int len = ll_len(pArrayListJugador);
-	int idAux;
-
-	for(int i = 0; i < len; i++)
-	{
-		this = ll_get(pArrayListJugador, i);
-		jug_getIdSeleccion(this, &idAux);
-
-		if(idAux == auxiliarId)
-		{
-			*index = ll_indexOf(pArrayListJugador, this);
-			break;
-		}
-		else
-		{
-			this = NULL;
-		}
-	}
-
-	return this;
+	printf("|%-4d|%-25s|%-6d|%-25s|%-20s|%-12s|\n", id, nombreCompleto, edad, posicion, nacionalidad, descripcionEstado);
 }
 
 int jug_criterioNacionalidad(void* pUno, void* pDos)
 {
 	int rtn;
-	eJugador* thisOne;
-	eJugador* thisTwo;
-	thisOne = pUno;
-	thisTwo = pDos;
+	char nacionalidadUno[TAM_CHAR];
+	char nacionalidadDos[TAM_CHAR];
 
-	if(thisOne != NULL && thisTwo != NULL)
+	if(pUno != NULL && pDos != NULL)
 	{
-		if(strnicmp(thisOne->nacionalidad, thisTwo->nacionalidad, 50) > 0)
-		{
-			rtn = 1;
-		}
-		else
-		{
-			if(strnicmp(thisOne->nacionalidad, thisTwo->nacionalidad, 50) < 0)
-			{
-				rtn = 0;
-			}
-		}
+		jug_getNacionalidad(pUno, nacionalidadUno);
+		jug_getNacionalidad(pDos, nacionalidadDos);
+
+		rtn = stricmp(nacionalidadUno, nacionalidadDos);
+
 	}
 	return rtn;
 }
 
 int jug_criterioEdad(void* pUno, void* pDos)
 {
-	int rtn;
-	eJugador* thisOne;
-	eJugador* thisTwo;
-	thisOne = pUno;
-	thisTwo = pDos;
+	int rtn = 0;
+	int edadUno, edadDos;
 
-	if(thisOne != NULL && thisTwo != NULL)
+	/* 1 = menor a mayor
+	 * 0 = mayor a menor
+	 * -1 = como vino
+	 */
+
+	if(pUno != NULL && pDos != NULL)
 	{
-		if(thisOne->edad > thisTwo->edad)
+		jug_getEdad(pUno, &edadUno);
+		jug_getEdad(pDos, &edadDos);
+
+		if(edadUno < edadDos)
 		{
-			rtn = 1;
+			rtn = -1;
 		}
 		else
 		{
-			if(thisOne->edad < thisTwo->edad)
+			if(edadUno > edadDos)
 			{
-				rtn = 0;
+				rtn = 1;
 			}
 		}
 	}
+
 	return rtn;
 }
 
 int jug_criterioNombre(void* pUno, void* pDos)
 {
 	int rtn;
-	eJugador* thisOne;
-	eJugador* thisTwo;
-	thisOne = pUno;
-	thisTwo = pDos;
 
-	if(thisOne != NULL && thisTwo != NULL)
+	char nombreUno[TAM_CHAR];
+	char nombreDos[TAM_CHAR];
+
+	if(pUno != NULL && pDos != NULL)
 	{
-		if(strnicmp(thisOne->nombreCompleto, thisTwo->nombreCompleto, 50) > 0)
-		{
-			rtn = 1;
-		}
-		else
-		{
-			if(strnicmp(thisOne->nombreCompleto, thisTwo->nombreCompleto, 50) < 0)
-			{
-				rtn = 0;
-			}
-		}
+		jug_getNombreCompleto(pUno, nombreUno);
+		jug_getNombreCompleto(pDos, nombreDos);
+
+		rtn = stricmp(nombreUno, nombreDos);
 	}
+
+	return rtn;
+}
+
+int jug_estadoConvocatoria(int idSeleccion , char* estadoStr)
+{
+	int rtn = -1;
+
+	if(idSeleccion >= 0 &&  idSeleccion <= 30 && estadoStr != NULL)
+	{
+		switch(idSeleccion)
+		{
+			case 0:
+				strcpy(estadoStr, "NO CONVOCADO");
+			break;
+
+			case 1:
+				strcpy(estadoStr, "ALEMANIA");
+			break;
+
+			case 2:
+				strcpy(estadoStr, "ARABIA");
+			break;
+
+			case 3:
+				strcpy(estadoStr, "ARGENTINA");
+			break;
+
+			case 4:
+				strcpy(estadoStr, "AUSTRALIA");
+			break;
+
+			case 5:
+				strcpy(estadoStr, "BELGICA");
+			break;
+
+			case 6:
+				strcpy(estadoStr, "BRASIL");
+			break;
+
+			case 7:
+				strcpy(estadoStr, "CAMERUN");
+			break;
+
+			case 8:
+				strcpy(estadoStr, "CANADA");
+			break;
+
+			case 9:
+				strcpy(estadoStr, "COREA SUR");
+			break;
+
+			case 10:
+				strcpy(estadoStr, "COSTA RICA");
+			break;
+
+			case 11:
+				strcpy(estadoStr, "CROACIA");
+			break;
+
+			case 12:
+				strcpy(estadoStr, "DINAMARCA");
+			break;
+
+			case 13:
+				strcpy(estadoStr, "ECUADOR");
+			break;
+
+			case 14:
+				strcpy(estadoStr, "ESPAÑA");
+			break;
+
+			case 15:
+				strcpy(estadoStr, "EE. UU.");
+			break;
+
+			case 16:
+				strcpy(estadoStr, "FRANCIA");
+			break;
+
+			case 17:
+				strcpy(estadoStr, "GALES");
+			break;
+
+			case 18:
+				strcpy(estadoStr, "GHANA");
+			break;
+
+			case 19:
+				strcpy(estadoStr, "HOLANDA");
+			break;
+
+			case 20:
+				strcpy(estadoStr, "INGLATERRA");
+			break;
+
+			case 21:
+				strcpy(estadoStr, "IRAN");
+			break;
+
+			case 22:
+				strcpy(estadoStr, "JAPON");
+			break;
+
+			case 23:
+				strcpy(estadoStr, "MARRUECOS");
+			break;
+
+			case 24:
+				strcpy(estadoStr, "MEXICO");
+			break;
+
+			case 25:
+				strcpy(estadoStr, "POLONIA");
+			break;
+
+			case 26:
+				strcpy(estadoStr, "PORTUGAL");
+			break;
+
+			case 27:
+				strcpy(estadoStr, "QATAR");
+			break;
+
+			case 28:
+				strcpy(estadoStr, "SENEGAL");
+			break;
+
+			case 29:
+				strcpy(estadoStr, "SERBIA");
+			break;
+
+			case 30:
+				strcpy(estadoStr, "SUIZA");
+			break;
+		}
+		rtn = 1;
+	}
+
 	return rtn;
 }

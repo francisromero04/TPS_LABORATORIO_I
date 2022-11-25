@@ -23,5 +23,7 @@ int utn_getPassword(char mensaje[], char mensajeError[], int min, int max, int r
 long int time_Current(void);
 long int time_Add(double secondsAdd);
 int funcionContinuar(char mensaje[], char mensajeError[]);
+int validarNacionalidad(char* nacionalidad);
+int validarPosicion(char* posicion);
 
 #endif /* UTN_H_ */
