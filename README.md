@@ -1,1 +1,1 @@
-# TPS_LABORATORIO_2C
+En este repositorio se encuentran parciales de la materia Laboratorio I.
